@@ -40,18 +40,11 @@ services:
   redis:
     image: 'redis:7-alpine'
     restart: unless-stopped
-    ports:
-      - '6379'
 
   selenium:
     image: 'selenium/standalone-chrome:latest'
     restart: unless-stopped
     shm_size: '2gb'
-    volumes:
-      - /dev/shm:/dev/shm
-    ports:
-      - '7900'
-      - '4444'
 
 volumes:
   postgres-data-16:
