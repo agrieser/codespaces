@@ -1,0 +1,33 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+	"name": "Rails devcontainer",
+	"dockerComposeFile": "compose.yml",
+	"service": "rails",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"remoteUser": "vscode",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		// "ghcr.io/devcontainers/features/common-utils:2": {
+		// 	"configureZshAsDefaultShell": "true"
+		// },
+		//"ghcr.io/rails/devcontainer/features/activestorage": {}
+	},
+
+	// Envs for the running container
+	"containerEnv": {
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "bash .devcontainer/postcreate.sh",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"Shopify.ruby-lsp"
+			]
+		}
+	}
+}
