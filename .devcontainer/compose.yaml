@@ -1,0 +1,55 @@
+name: "example-app"
+
+services:
+  rails-app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+
+    volumes:
+    - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Uncomment the next line to use a non-root user for all processes.
+    # user: vscode
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: redis:7.2
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16.1
+    restart: unless-stopped
+    networks:
+      - default
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  portainer:
+    image: 'portainer/portainer-ce:latest'
+    container_name: portainer
+    restart: always
+    command: --admin-password ${PORTAINER_PASSWORD} -H unix:///var/run/docker.sock
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    ports:
+      - '9000:9000'
+
+  selenium:
+    image: 'selenium/standalone-chrome:latest'
+    restart: unless-stopped
+    shm_size: '2gb'
+
+volumes:
+  postgres-data:
